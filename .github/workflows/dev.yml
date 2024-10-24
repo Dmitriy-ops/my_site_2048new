@@ -18,6 +18,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Установка semver
+        run: |
+          npm install -g semver
+
       - name: Сборка и публикация Docker образа
         uses: docker/build-push-action@v3
         with:
@@ -26,7 +30,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/my-site2048:latest
             ${{ secrets.DOCKER_USERNAME }}/my-site2048:${{ github.sha }}
-            ${{ secrets.DOCKER_USERNAME }}/my-site2048:v${{ github.run_number }}
+            ${{ secrets.DOCKER_USERNAME }}/my-site2048:$(semver bump patch)
 
       - name: Подключение к серверу и обновление Docker Compose
         uses: appleboy/ssh-action@v1.1.0
@@ -36,4 +40,3 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker-compose pull && docker-compose up -d
-
