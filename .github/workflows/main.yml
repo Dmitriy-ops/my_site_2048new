@@ -23,7 +23,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my-image:latest, ${{ secrets.DOCKER_USERNAME }}/my-image:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/my-site2048:latest, ${{ secrets.DOCKER_USERNAME }}/my-site2048:${{ github.sha }}
 
       - name: Подключение к серверу
         uses: appleboy/ssh-action@v1.1.0
