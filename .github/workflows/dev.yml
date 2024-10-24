@@ -35,11 +35,11 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/my-site2048:${{ env.NEW_VERSION }}
             ${{ secrets.DOCKER_USERNAME }}/my-site2048:latest
 
-      - name: Подключение к серверу и обновление Docker Compose
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            docker-compose pull && docker-compose up -d
+- name: Подключение к серверу и обновление Docker Compose
+  uses: appleboy/ssh-action@v1.1.0
+  with:
+    host: ${{ secrets.SERVER_HOST }}
+    username: ${{ secrets.SERVER_USERNAME }}
+    key: ${{ secrets.SERVER_SSH_KEY }}
+    script: |
+      /home/test/site/docker-compose pull && /home/test/site/docker-compose up -d
