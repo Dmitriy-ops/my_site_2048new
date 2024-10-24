@@ -13,25 +13,23 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Вход в Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Сборка и публикация Docker образа
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/my-site2048:latest, ${{ secrets.DOCKER_USERNAME }}/my-site2048:${{ github.sha }}
 
-      - name: Подключение к серверу
+      - name: Подключение к серверу и обновление Docker Compose
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-
-      - name: Обновление и запуск Docker Compose
-        run: |
-          ssh -o "StrictHostKeyChecking=no" ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "docker-compose pull && docker-compose up -d"
+          script: |
+            docker-compose pull && docker-compose up -d
