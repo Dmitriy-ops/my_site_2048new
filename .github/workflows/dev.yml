@@ -30,9 +30,6 @@ jobs:
           set -e
           echo "VERSION=$(semver bump patch)" >> $GITHUB_ENV
 
-      - name: Проверка версии
-        run: echo "Текущая версия: $VERSION"
-
       - name: Вход в Docker Hub
         uses: docker/login-action@v2
         with:
