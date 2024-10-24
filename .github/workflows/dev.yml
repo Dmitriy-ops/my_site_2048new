@@ -12,27 +12,6 @@ jobs:
       - name: Проверка кода
         uses: actions/checkout@v2
 
-      - name: Проверка версии Node.js и npm
-        run: |
-          node -v
-          npm -v
-
-      - name: Установка semver
-        run: |
-          npm install -g semver
-
-      - name: Проверка версии semver
-        run: semver --version
-
-      - name: Получение новой версии
-        id: version
-        run: |
-          set -e
-          echo "VERSION=$(semver bump patch)" >> $GITHUB_ENV
-
-      - name: Проверка версии
-        run: echo "Текущая версия: $VERSION"
-
       - name: Вход в Docker Hub
         uses: docker/login-action@v2
         with:
@@ -47,7 +26,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/my-site2048:latest
             ${{ secrets.DOCKER_USERNAME }}/my-site2048:${{ github.sha }}
-            ${{ secrets.DOCKER_USERNAME }}/my-site2048:${{ env.VERSION }}
+            ${{ secrets.DOCKER_USERNAME }}/my-site2048:v${{ github.run_number }}
 
       - name: Подключение к серверу и обновление Docker Compose
         uses: appleboy/ssh-action@v1.1.0
