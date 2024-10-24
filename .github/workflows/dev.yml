@@ -42,4 +42,4 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            /home/test/site/docker-compose pull && /home/test/site/docker-compose up -d
+            /home/test/site/docker compose pull && /home/test/site/docker compose up -d
